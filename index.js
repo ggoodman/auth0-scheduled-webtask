@@ -10,6 +10,7 @@ exports.register = function (server, options, next) {
   
   var loadAdaptors = function () {
     return Promise.all([
+      require('./adapters/assets').init(server, options),
       // require('./adapters/authentication').init(server, options),
     ]);
   };
