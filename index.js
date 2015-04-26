@@ -1,4 +1,5 @@
 var Boom = require('boom');
+var Path = require('path');
 var Promise = require('bluebird');
 var _ = require('lodash');
 
@@ -16,10 +17,13 @@ exports.register = function (server, options, next) {
   };
 
   var loadPlugins = function () {
-    return server.registerAsync([/*{
+    return server.registerAsync([{
+      register: require('./facets/assets'),
+      options: options,
+    }, {
       register: require('./facets/auth'),
       options: options,
-    }*/]);
+    }]);
   };
   
   

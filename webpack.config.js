@@ -9,7 +9,7 @@ module.exports = {
   //devtool: "source-map",
   context: __dirname,
   entry: {
-    plunker: [__dirname + "/web/src/entries/tasker.js"],
+    tasker: [__dirname + "/web/src/entry/tasker.js"],
   },
   output: {
     path: Path.join(__dirname, "web", "static"),
@@ -19,6 +19,12 @@ module.exports = {
   },
   module: {
     loaders: [
+      { test: /[\/\\]angular\.js$/, loader: "exports-loader?window.angular" },
+      { test: /[\/\\]angular-animate\.js$/, loader: "exports-loader?'ngAnimate'" },
+      { test: /[\/\\]angular-aria\.js$/, loader: "exports-loader?'ngAria'" },
+      { test: /[\/\\]angular-material\.js$/, loader: "exports-loader?'ngMaterial'" },
+      { test: /[\/\\]ct-ui-router-extras\.js$/, loader: "exports-loader?'ct.ui.router.extras'" },
+
       { test: /\.css$/,   loader: ExtractTextPlugin.extract("style-loader", "css-loader!autoprefixer-loader") },
       { test: /\.less$/,  loader: ExtractTextPlugin.extract("style-loader", "css-loader!autoprefixer-loader!less-loader") },
       { test: /\.woff$/,  loader: "url-loader?limit=10000&mimetype=application/font-woff" },
