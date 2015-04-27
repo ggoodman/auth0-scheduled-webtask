@@ -1,0 +1,28 @@
+<h1 class="page-header">Settings</h1>
+
+<div class="row">
+  <div class="col-xs-12">
+    <div class="alert alert-danger" ng-if="settings.err">
+      <span class="close" ng-click="settings.err=null">&times;</span>
+      <p ng-bind="settings.err"></p>
+    </div>
+    <div class="alert alert-info" ng-if="settings.msg">
+      <p ng-bind="settings.msg"></p>
+    </div>
+    
+    <form name="settings.tokenForm" novalidate
+      ng-submit="settings.updateToken(settings.tokenInput)">
+        <div class="form-group">
+          <label for="tokenInput">Webtask.io token</label>
+          <textarea name="token" type="text" class="form-control" id="tokenInput"
+            placeholder="Enter Webtask.io token" rows="3"
+            ng-model="settings.tokenInput"></textarea>
+          <p class="help-block">
+            Your <a href="https://webtask.io" target="_blank">Webtask.io</a> token
+            can be found at <a href="https://webtask.io/token">this link</a>.
+          </p>
+        </div>
+        <button type="submit" class="btn btn-success">Save</button>
+    </form>
+  </div>
+</div>

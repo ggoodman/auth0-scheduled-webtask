@@ -17,15 +17,15 @@ module.config(["$stateProvider", function ($stateProvider) {
   $stateProvider.state("logout", {
     url: "/logout",
     template: "",
-    controller: "LogoutController as vm",
+    controller: "LogoutController as logout",
   });
   
 }]);
 
 module.controller("LogoutController", ["$state", "auth", "store", function ($state, auth, store) {
-  var vm = this;
+  var logout = this;
   
-  vm.logout = function () {
+  logout.logout = function () {
     auth.signout();
     store.remove('profile');
     store.remove('token');
@@ -33,7 +33,7 @@ module.controller("LogoutController", ["$state", "auth", "store", function ($sta
     $state.go("dashboard");
   };
   
-  vm.logout();
+  logout.logout();
   
 }]);
 

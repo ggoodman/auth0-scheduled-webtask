@@ -1,12 +1,15 @@
-<h1 class="page-header">Dashboard</h1>
+<h1 class="page-header">Tasks</h1>
 
 <div class="row">
   <div class="col-xs-12">
-    <h2>Scheduled webtasks</h2>
-    
-    <table class="table table-striped" ng-if="dashboard.tasks.length">
-      <tr><td>TODO: Show table of 5 tasks</td></tr>
-    </table>
+    <div ng-if="tasks.tasks.length">
+      <table class="table table-striped">
+        <tr><td>TODO: Show table of 5 tasks</td></tr>
+      </table>
+      <a class="btn btn-link" ui-sref="dashboard.tasks.create">
+        Create task
+      </a>
+    </div>
     
     <div class="alert alert-info" ng-if="!dashboard.tasks.length">
       <p>
@@ -21,4 +24,4 @@
       </p>
     </div>
   </div>
-</div>
+</div>  

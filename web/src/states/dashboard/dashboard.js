@@ -11,6 +11,8 @@ var module = Angular.module(module.exports, [
   'auth0', 'angular-storage', 'angular-jwt', // Auth0
   
   require("./home/home"),
+  require("./tasks/tasks"),
+  require("./settings/settings"),
 ]);
 
 
@@ -26,13 +28,24 @@ module.config(["$stateProvider", function ($stateProvider) {
   
 }]);
 
-module.controller("DashboardController", ["$state", "$stateParams", "auth", "store", function ($state, $stateParams, auth, store) {
+module.controller("DashboardController", ["$rootScope", "$state", "auth", "store", function ($rootScope, $state, auth, store) {
   var dashboard = this;
   
   if ($state.is("dashboard")) {
-    console.log("Going to dashboard.home")
     $state.go("dashboard.home");
   }
+  
+  // Users need to configure their token first. So as long as the user is in
+  // the dashboard and does not have a token defined, redirect to
+  // 'dashboard.settings'
+  
+  $rootScope.$on("$stateChangeStart", function (e, toState) {
+    if (toState.name !== "dashboard.settings" && toState.name.split(".")[0] === "dashboard") {
+      e.preventDefault();
+      
+      $state.go("dashboard.settings", {msg: "You need to configure a token to work with Tasker."});
+    }
+  });
   
 }]);
 

@@ -3,6 +3,23 @@
     <ul class="nav nav-sidebar">
       <li ng-class="{active: $state.includes('dashboard.home')}"><a ui-sref="dashboard.home">Home</a></li>
     </ul>
+    <ul class="nav nav-sidebar">
+      <li ng-class="{active: $state.includes('dashboard.tasks')}">
+        <a ui-sref="dashboard.tasks">
+          Tasks
+          <span class="badge pull-right" ng-bind="(dashboard.tasks.length || 0) | number"></span>
+        </a>
+      </li>
+      <li ng-class="{active: $state.includes('dashboard.logs')}">
+        <a ui-sref="dashboard.logs">
+          Logs
+          <span class="badge alert-danger pull-right" ng-if="dashboard.logs.errors.length" ng-bind="dashboard.logs.errors.length | number"></span>
+        </a>
+      </li>
+    </ul>
+    <ul class="nav nav-sidebar">
+      <li ng-class="{active: $state.includes('dashboard.settings')}"><a ui-sref="dashboard.settings">Settings</a></li>
+    </ul>
   </div>
   <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" ui-view>Loading content...</div>
 </div>
