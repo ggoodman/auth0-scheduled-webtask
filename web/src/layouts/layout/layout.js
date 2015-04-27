@@ -1,6 +1,10 @@
 module.exports = "tasker.layouts.layout";
 
 
+require("layouts/layout/layout.less");
+
+
+
 var Angular = require("angular");
 
 
@@ -12,11 +16,8 @@ var module = Angular.module(module.exports, [
 module.config(["$stateProvider", function ($stateProvider) {
   
   $stateProvider.state("layout", {
-    url: "/",
+    abstract: true,
     template: require("layouts/layout/layout.html"),
-    data: {
-      requiresLogin: true,
-    }
   });
   
 }]);

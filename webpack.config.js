@@ -1,4 +1,5 @@
 //var NgAnnotatePlugin = require("ng-annotate-webpack-plugin");
+var BowerWebpackPlugin = require("bower-webpack-plugin");
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var Path = require("path");
 var SwigWebpackPlugin = require("swig-webpack-plugin");
@@ -24,6 +25,7 @@ module.exports = {
       { test: /[\/\\]angular-aria\.js$/, loader: "exports-loader?'ngAria'" },
       { test: /[\/\\]angular-material\.js$/, loader: "exports-loader?'ngMaterial'" },
       { test: /[\/\\]ct-ui-router-extras\.js$/, loader: "exports-loader?'ct.ui.router.extras'" },
+      { test: /[\/\\]ui-bootstrap-tpls\.js$/, loader: "exports-loader?'ui.bootstrap'" },
 
       { test: /\.css$/,   loader: ExtractTextPlugin.extract("style-loader", "css-loader!autoprefixer-loader") },
       { test: /\.less$/,  loader: ExtractTextPlugin.extract("style-loader", "css-loader!autoprefixer-loader!less-loader") },
@@ -39,9 +41,7 @@ module.exports = {
     ]
   },
   plugins: [
-    new Webpack.ResolverPlugin(
-      new Webpack.ResolverPlugin.DirectoryDescriptionFilePlugin("bower.json", ["main"])
-    ),
+    new BowerWebpackPlugin(),
     new Webpack.optimize.DedupePlugin(),
     new ExtractTextPlugin("build/[name]-[contenthash].css"),
     new SwigWebpackPlugin({

@@ -26,7 +26,7 @@ module.controller("LoginController", ["$state", "$stateParams", "auth", "store",
   var vm = this;
   
   if (auth.isAuthenticated) {
-    $state.go("layout");
+    $state.go("dashboard");
   }
   
   vm.login = function () {
@@ -36,16 +36,12 @@ module.controller("LoginController", ["$state", "$stateParams", "auth", "store",
       // Success callback
       store.set('profile', profile);
       store.set('token', token);
-      
-      console.log("loginSuccess", profile, token);
     }, function (err) {
       
       
       console.error(err);
       // Error callback
     });
-    
-    console.log("login", resp);
   };
   
   vm.login();

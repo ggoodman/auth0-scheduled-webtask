@@ -30,7 +30,7 @@ module.controller("LogoutController", ["$state", "auth", "store", function ($sta
     store.remove('profile');
     store.remove('token');
     
-    $state.go("login");
+    $state.go("dashboard");
   };
   
   vm.logout();
