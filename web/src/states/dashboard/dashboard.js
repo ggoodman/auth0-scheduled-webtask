@@ -39,13 +39,14 @@ module.controller("DashboardController", ["$rootScope", "$state", "auth", "store
   // the dashboard and does not have a token defined, redirect to
   // 'dashboard.settings'
   
-  $rootScope.$on("$stateChangeStart", function (e, toState) {
-    if (toState.name !== "dashboard.settings" && toState.name.split(".")[0] === "dashboard") {
-      e.preventDefault();
+  // $rootScope.$on("$stateChangeStart", function (e, toState) {
+  //   if (toState.name !== "dashboard.settings" && toState.name.split(".")[0] === "dashboard") {
+  //     e.preventDefault();
       
-      $state.go("dashboard.settings", {msg: "You need to configure a token to work with Tasker."});
-    }
-  });
+  //     $state.go("dashboard.settings", {msg: "You need to configure a token to work with Tasker."});
+  //   }
+  // });
+  
   
 }]);
 

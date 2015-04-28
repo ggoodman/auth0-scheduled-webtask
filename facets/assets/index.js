@@ -16,6 +16,7 @@ exports.register = function (server, options, next) {
   server.route({ method: "GET", path: "/robots.txt", config: require("./routes/handleRobots") });
   server.route({ method: "GET", path: "/{any*}", config: require("./routes/handleSPA") });
   server.route({ method: "GET", path: "/static/{any*}", config: require("./routes/handleStatic") });
+  server.route({ method: "GET", path: "/ace/{any*}", config: require("./routes/handleAce") });
   
   next();
 };

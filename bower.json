@@ -22,7 +22,8 @@
     "angular-ui-router": "~0.2.13",
     "ui-router-extras": "~0.0.13",
     "angular-bootstrap": "~0.12.1",
-    "bootstrap": "~3.3.4"
+    "bootstrap": "~3.3.4",
+    "ace-builds": "~1.1.9"
   },
   "resolutions": {
     "angular": "1.4.x",

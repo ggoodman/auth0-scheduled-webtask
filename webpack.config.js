@@ -20,6 +20,7 @@ module.exports = {
   },
   module: {
     loaders: [
+      { test: /[\/\\]ace\.js$/, loader: "exports-loader?window.ace" },
       { test: /[\/\\]angular\.js$/, loader: "exports-loader?window.angular" },
       { test: /[\/\\]angular-animate\.js$/, loader: "exports-loader?'ngAnimate'" },
       { test: /[\/\\]angular-aria\.js$/, loader: "exports-loader?'ngAria'" },
@@ -37,6 +38,7 @@ module.exports = {
       { test: /\.json$/,  loader: "json-loader" },
     ],
     noParse: [
+      /\/ace\.js$/,
       // require.resolve("angular"),
     ]
   },
