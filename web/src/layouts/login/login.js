@@ -26,7 +26,7 @@ module.controller("LoginController", ["$state", "$stateParams", "auth", "store",
   var vm = this;
   
   if (auth.isAuthenticated) {
-    $state.go("dashboard");
+    $state.go("dashboard.home");
   }
   
   vm.login = function () {

@@ -37,7 +37,7 @@ exports.createToken = function (authorization, id, secrets) {
 };
 
 exports.isRunnable = function (task) {
-  return true;
+  return !task.last_started_at; // Do not reserve if already started
 };
 
 exports.run = function (task) {

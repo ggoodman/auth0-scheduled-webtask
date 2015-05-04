@@ -27,7 +27,7 @@ module.directive("jsonModel", [function () {
       
       model.$formatters.push(function (value) {
         try {
-          return JSON.stringify(value);
+          return JSON.stringify(value, null, 2);
         } catch (err) {
           return;
         }

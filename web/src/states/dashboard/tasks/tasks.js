@@ -21,7 +21,7 @@ module.config(["$stateProvider", function ($stateProvider) {
     return {
       name: "",
       secrets: {},
-      code: "return function (cb) {\n    cb(null, 'done');\n}",
+      code: "return function (context, cb) {\n  cb(null, 'done');\n}",
       schedule: "",
     };
   }];

@@ -19,7 +19,6 @@ module.exports = function (next) {
     var reserveTask = function () {
       var query = {
         _id: task._id,
-        last_started_at: task.last_started_at,
         next_scheduled_at: task.next_scheduled_at,
       };
       
