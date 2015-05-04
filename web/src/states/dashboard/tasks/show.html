@@ -1,0 +1,31 @@
+<h1 class="page-header">
+  Viewing task:
+  <small ng-bind="vm.task.name"></small>
+</h1>
+
+<div class="row">
+  <div class="col-xs-12">
+    <h4>Code</h4>
+    <pre><code ng-bind="vm.task.code"></code></pre>
+    
+    <div class="well" ng-if="vm.task.last_response">
+      <h4>Response status</h4>
+      <pre><code ng-bind="vm.task.last_response.satusCode"></code></pre>
+      
+      <h4>Response body</h4>
+      <pre><code ng-bind="vm.task.last_response.body"></code></pre>
+      
+      <h4>Response headers</h4>
+      <pre><code ng-bind="vm.task.last_response.headers | json"></code></pre>
+    </div>
+    
+    <div ng-if="vm.err">
+      <p class="alert alert-block alert-danger">
+        <span class="close" ng-click="vm.err=null">&times;</span>
+        <span ng-bind="vm.err"></span>
+      </p>
+    </div>
+    
+    <button class="btn btn-danger" ng-click="vm.destroyTask(vm.task)">Destroy</button>
+  </div>
+</div>  

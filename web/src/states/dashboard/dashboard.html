@@ -5,7 +5,7 @@
     </ul>
     <ul class="nav nav-sidebar">
       <li ng-class="{active: $state.includes('dashboard.tasks')}">
-        <a ui-sref="dashboard.tasks">
+        <a ui-sref="dashboard.tasks.list">
           Tasks
           <span class="badge pull-right" ng-bind="(dashboard.tasks.length || 0) | number"></span>
         </a>

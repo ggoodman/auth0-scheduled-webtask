@@ -14,18 +14,25 @@ var module = Angular.module(module.exports, [
 
 module.config(["$stateProvider", function ($stateProvider) {
   
+  var resolveTasks = ["api", function (api) {
+    return api.get("/tasks");
+  }];
+  
   $stateProvider.state("dashboard.home", {
     url: "/",
+    resolve: {
+      tasks: resolveTasks,
+    },
     controller: "DashboardHomeController as dashboard",
     template: require("./home.html"),
   });
   
 }]);
 
-module.controller("DashboardHomeController", ["$state", "$stateParams", "auth", "store", function ($state, $stateParams, auth, store) {
-  var home = this;
+module.controller("DashboardHomeController", ["$state", "$stateParams", "auth", "tasks", function ($state, $stateParams, auth, tasks) {
+  var vm = this;
   
-  
+  vm.tasks = tasks;
 }]);
 
 

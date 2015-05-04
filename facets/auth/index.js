@@ -39,8 +39,8 @@ exports.register = function (server, options, next) {
         });
       };
       
-      server.auth.strategy("jwt", "jwt", {
-        key: options.config.auth.clientSecret,
+      server.auth.strategy("auth0", "jwt", {
+        key: new Buffer(options.config.auth.clientSecret, 'base64'),
         validateFunc: validateFunc,
       });
       

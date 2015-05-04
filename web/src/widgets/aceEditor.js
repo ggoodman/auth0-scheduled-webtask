@@ -37,6 +37,7 @@ module.directive("aceEditor", [function () {
       editor.setHighlightActiveLine(false);
       editor.session.setTabSize(2);
       editor.session.setUseSoftTabs(true);
+      editor.session.setValue(model.$viewValue);
       editor.renderer.setShowGutter(!!$attrs.showGutter);
       editor.renderer.setShowPrintMargin(!!$attrs.showPrintMargin);
       editor.setOptions({
@@ -48,21 +49,21 @@ module.directive("aceEditor", [function () {
         editor.session.setMode("ace/mode/" + (mode || "text"));
       })
       
-      model.$validators.json = function (modelValue, viewValue) {
-        var value = modelValue || viewValue;
-        var error = null;
+      // model.$validators.json = function (modelValue, viewValue) {
+      //   var value = modelValue || viewValue;
+      //   var error = null;
         
-        // Rely on 'required' validator to handle empty strings
-        if (!value) return true;
+      //   // Rely on 'required' validator to handle empty strings
+      //   if (!value) return true;
         
-        try {
-          JSON.parse(value);
-        } catch (err) {
-          error = err;
-        }
+      //   try {
+      //     JSON.parse(value);
+      //   } catch (err) {
+      //     error = err;
+      //   }
         
-        return !error;
-      };
+      //   return !error;
+      // };
       
       model.$render = function () {
         var doc = editor.session.doc;
@@ -74,8 +75,8 @@ module.directive("aceEditor", [function () {
       
       editor.on("change", function () {
         var contents = editor.session.getValue();
-        
-        model.$setViewValue(contents);
+
+        model.$setViewValue(contents, "change");
         
         if (!$scope.$root.$$phase) $scope.$digest();
       });

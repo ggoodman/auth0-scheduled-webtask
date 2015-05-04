@@ -12,16 +12,28 @@ exports.register = function (server, options, next) {
   var loadAdaptors = function () {
     return Promise.all([
       require('./adapters/assets').init(server, options),
-      // require('./adapters/authentication').init(server, options),
+      require('./adapters/mongodb').init(server, options),
+      require('./adapters/webtasks').init(server, options),
     ]);
   };
 
-  var loadPlugins = function () {
+  var loadApiPlugins = function () {
     return server.registerAsync([{
-      register: require('./facets/assets'),
+      register: require('./facets/auth'),
       options: options,
     }, {
-      register: require('./facets/auth'),
+      register: require('./facets/tasks'),
+      options: options,
+    }], {
+      routes: {
+        prefix: "/api", // All API endpoints live in this test server under /api
+      }
+    });
+  };
+
+  var loadWebPlugins = function () {
+    return server.registerAsync([{
+      register: require('./facets/assets'),
       options: options,
     }]);
   };
@@ -30,7 +42,8 @@ exports.register = function (server, options, next) {
   
   
   loadAdaptors()
-    .then(loadPlugins)
+    .then(loadApiPlugins)
+    .then(loadWebPlugins)
     .nodeify(next);
   
 };

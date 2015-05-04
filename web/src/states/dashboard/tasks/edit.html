@@ -2,19 +2,26 @@
 
 <div class="row">
   <div class="col-xs-12">
-    <form name="tasks.draftForm" novalidate ng-submit="tasks.create(tasks.draft)">
+    <div ng-if="vm.err">
+      <p class="alert alert-block alert-danger">
+        <span class="close" ng-click="vm.err = null">&timesl;</span>
+        <span ng-bind="vm.err"></span>
+      </p>
+    </div>
+    
+    <form name="tasks.draftForm" novalidate ng-submit="vm.create(vm.draft)">
       <div class="form-group">
         <label for="taskName">Webtask name</label>
         <input name="name" type="text" class="form-control" id="taskName"
           placeholder="Token name"
-          ng-model="tasks.draft.name"
+          ng-model="vm.draft.name" ng-model-options="{updateOn: 'blur'}"
           required ng-minlength="4">
       </div>
       <div class="form-group">
         <label for="taskSecrets">Webtask secrets</label>
         <div ace-editor name="secrets" class="form-control" id="taskSecrets"
-          placeholder="" rows="8" mode="json" min-lines="4"
-          ng-model="tasks.draft.secrets"></div>
+          placeholder="" rows="8" mode="json" min-lines="4" json-model
+          ng-model="vm.draft.secrets" ng-model-options="{updateOn: 'blur'}"></div>
         <p class="help-block">
           Define your secrets here as a <strong>JSON</strong>.
           These will be exposed to your webtask as children of the
@@ -28,18 +35,30 @@
         <div ace-editor name="code" class="form-control" id="taskCode"
           placeholder="" rows="8" mode="javascript"
           min-lines="10" max-lines="30"
-          ng-model="tasks.draft.code"></div>
+          ng-model="vm.draft.code" ng-model-options="{updateOn: 'blur'}"></div>
         <p class="help-block">
           Please see the
           <a href="https://webtask.io/docs/token" target="_blank">documentation</a>
           for further information.
         </p>
       </div>
-      <div class="alert alert-info">
+      <!--<div class="alert alert-info">
         <p>In the next step we will associate a schedule with your webtask.</p>
+      </div>-->
+      <div class="form-group">
+        <label for="taskSchedule">Webtask schedule</label>
+        <input name="schedule" type="text" class="form-control" id="taskSchedule"
+          placeholder="*    *    *    *    *    *"
+          ng-model="vm.draft.schedule" ng-model-options="{updateOn: 'blur'}"
+          required>
+        <p class="help-block">
+          Crontab-formatted schedule definition.
+          <a href="https://github.com/harrisiirak/cron-parser#supported-format"
+            target="_blank">Supported format</a>.
+        </p>
       </div>
-      <button type="submit" class="btn btn-success">Create</button>
-      <a class="btn btn-link" ui-sref="dashboard.tasks">Cancel</a>
+      <button type="submit" class="btn btn-success" ng-disabled="vm.draftForm.$invalid">Create</button>
+      <a class="btn btn-link" ui-sref="dashboard.tasks.list">Cancel</a>
     </form>
   </div>
 </div>  

@@ -2,16 +2,32 @@
 
 <div class="row">
   <div class="col-xs-12">
-    <div ng-if="tasks.tasks.length">
-      <table class="table table-striped">
-        <tr><td>TODO: Show table of 5 tasks</td></tr>
+    <div ng-if="vm.tasks.length">
+      <table class="table table-striped table-hover" ng-if="vm.tasks.length">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Runs</th>
+            <th>Errors</th>
+            <th>Next scheduled</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="task in vm.tasks" ui-sref="dashboard.tasks.show({id: task._id})">
+            <td ng-bind="task.name"></td>
+            <td ng-bind="task.runs_count | number"></td>
+            <td ng-bind="task.errors_count | number"></td>
+            <td ng-bind="task.next_scheduled_at | date:'short'"></td>
+          </tr>
+        </tbody>
       </table>
-      <a class="btn btn-link" ui-sref="dashboard.tasks.create">
+      
+      <a class="btn btn-link" ui-sref="vm.tasks.create">
         Create task
       </a>
     </div>
     
-    <div class="alert alert-info" ng-if="!dashboard.tasks.length">
+    <div class="alert alert-info" ng-if="!vm.tasks.length">
       <p>
         You do not have any scheduled tasks. Defining and scheduling code to run
         on Webtask.io is really, really easy. Click below to get started.

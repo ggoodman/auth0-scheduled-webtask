@@ -19,6 +19,7 @@ var module = Angular.module(module.exports, [
 module.config(["$stateProvider", function ($stateProvider) {
   
   $stateProvider.state("dashboard", {
+    abstract: true,
     dsr: true,
     url: "/dashboard",
     controller: "DashboardController as dashboard",
@@ -28,8 +29,8 @@ module.config(["$stateProvider", function ($stateProvider) {
   
 }]);
 
-module.controller("DashboardController", ["$rootScope", "$state", "auth", "store", function ($rootScope, $state, auth, store) {
-  var dashboard = this;
+module.controller("DashboardController", ["$rootScope", "$state", "auth", function ($rootScope, $state, auth) {
+  var vm = this;
   
   if ($state.is("dashboard")) {
     $state.go("dashboard.home");

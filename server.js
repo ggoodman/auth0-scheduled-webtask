@@ -14,8 +14,6 @@ var server = new Hapi.Server({
 
 var config = require('./config');
 
-console.log(config);
-
 var plugins = [
   {
     register: require('good'),

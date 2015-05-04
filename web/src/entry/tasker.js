@@ -30,7 +30,7 @@ module.config(["$locationProvider", "$urlRouterProvider", function ($locationPro
   
   $locationProvider.html5Mode(true).hashPrefix('!');
   
-  $urlRouterProvider.otherwise('/dashboard');
+  $urlRouterProvider.otherwise('/dashboard/');
 }]);
 
 module.config(["authProvider", function (authProvider) {
@@ -58,7 +58,7 @@ module.run(["$rootScope", "$state", "auth", "jwtHelper", "store", function ($roo
       
       auth.returnTo = null;
     } else {
-      $state.go("dashboard");
+      $state.go("dashboard.home");
     }
   });
   
