@@ -20,9 +20,10 @@ module.exports = function (headers, auth, payload, next) {
       secrets: payload.secrets,
       code: payload.code,
       schedule: payload.schedule,
-      last_started_at: null,
       last_response: null,
       next_scheduled_at: nextScheduledAt,
+      reservation: null,
+      timeout: Math.min(1000 * 10, Math.min(1000 * 60 * 60, payload.timeout * 1000)), // Between 10s and 1h
       errors_count: 0,
       runs_count: 0,
       token: token,

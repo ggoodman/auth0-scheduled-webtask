@@ -24,7 +24,17 @@ exports.register = function (server, options, next) {
   setInterval(function () {
     server.methods.tasksRunScheduled(function (err, results) {
       if (err) server.log(['task', 'error'], err);
-      else server.log(['task', 'info'], results);
+      else {
+        var totalTime = _.sum(results, "time");
+        
+        server.log(['task', 'info'], {
+          ok: results.length,
+          stats: {
+            totalTime: totalTime,
+            averageTime: totalTime / results.length
+          },
+        });
+      }
       //console.log("tasksRunScheduled", err, results);
     });
     

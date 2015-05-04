@@ -22,7 +22,8 @@ module.config(["$stateProvider", function ($stateProvider) {
       name: "",
       secrets: {},
       code: "return function (context, cb) {\n  cb(null, 'done');\n}",
-      schedule: "",
+      schedule: "* * * * *",
+      timeout: 10,
     };
   }];
   
@@ -73,6 +74,8 @@ module.config(["$stateProvider", function ($stateProvider) {
 module.controller("TasksListController", ["$state", "$stateParams", "api", "tasks", function ($state, $stateParams, api, tasks) {
   var vm = this;
   
+  vm.err = $stateParams.err;
+  vm.msg = $stateParams.msg;
   vm.tasks = tasks;
   
 }]);
@@ -80,12 +83,13 @@ module.controller("TasksListController", ["$state", "$stateParams", "api", "task
 module.controller("TasksEditController", ["$state", "$stateParams", "api", "task", function ($state, $stateParams, api, task) {
   var vm = this;
   
+  vm.err = $stateParams.err;
+  vm.msg = $stateParams.msg;
   vm.draft = Angular.copy(task);
   
   vm.create = function (taskDef) {
     return api.post("/tasks", {}, taskDef)
       .then(function (newTask) {
-        console.log("Resp", newTask);
         $state.go("dashboard.tasks.show", {
           id: newTask._id,
           msg: "Webtask created and scheduled for execution",
@@ -100,9 +104,11 @@ module.controller("TasksEditController", ["$state", "$stateParams", "api", "task
 }]);
 
 
-module.controller("TasksShowController", ["$state", "api", "task", function ($state, api, task) {
+module.controller("TasksShowController", ["$state", "$stateParams", "api", "task", function ($state, $stateParams, api, task) {
   var vm = this;
   
+  vm.err = $stateParams.err;
+  vm.msg = $stateParams.msg;
   vm.task = task;
   
   vm.destroyTask = function (task) {

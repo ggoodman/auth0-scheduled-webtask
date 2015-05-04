@@ -57,6 +57,18 @@
             target="_blank">Supported format</a>.
         </p>
       </div>
+      <div class="form-group">
+        <label for="taskTimeout">Timeout</label>
+        <input name="timeout" type="number" class="form-control" id="taskTimeout"
+          placeholder="0"
+          ng-model="vm.draft.timeout" ng-model-options="{updateOn: 'blur'}"
+          required min="10" max="3600">
+        <p class="help-block">
+          Specify the maximum number of <strong>seconds</strong> after which your task will be
+          considered to have failed. The task will not be run according to the
+          above schedule as long as a run is outstanding.
+        </p>
+      </div>
       <button type="submit" class="btn btn-success" ng-disabled="vm.draftForm.$invalid">Create</button>
       <a class="btn btn-link" ui-sref="dashboard.tasks.list">Cancel</a>
     </form>

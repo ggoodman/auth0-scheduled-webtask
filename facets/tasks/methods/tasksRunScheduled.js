@@ -14,17 +14,46 @@ module.exports = function (next) {
     },
   };
   
+  var cancelExpiredReservation = function (task) {
+    if (task.reservation) {
+      if (task.reservation.expires_at <= now) {
+        var query = {
+          "_id": task._id,
+          "reservation.started_at": task.reservation.started_at
+        };
+        
+        var update = {
+          $unset: {
+            reservation: true,
+          },
+        };
+        
+        return Mongo.db.findAndModify("tasks", query, update);
+      } else {
+        return; // Return undefined to be filtered out
+      }
+    }
+    
+    // No reservation
+    return task;
+  };
   
   var runTask = function (task) {
     var reserveTask = function () {
+      var schedule = Cron.parseExpression(task.schedule);
+      var nextScheduledAt = schedule.next();
       var query = {
-        _id: task._id,
-        next_scheduled_at: task.next_scheduled_at,
+        "_id": task._id,
+        "reservation": null,
       };
       
       var update = {
         $set: {
-          last_started_at: now,
+          reservation: {
+            started_at: now,
+            expires_at: new Date(now.valueOf() + task.timeout),
+          },
+          next_scheduled_at: nextScheduledAt,
         },
       };
       
@@ -33,17 +62,18 @@ module.exports = function (next) {
     
     var handleTaskFailure = function (err) {
       var query = {
-        _id: task._id,
-        last_started_at: now,
-        next_scheduled_at: task.next_scheduled_at,
+        "_id": task._id,
+        "reservation.started_at": now,
       };
       
       var update = {
         $set: {
-          last_started_at: null,
           last_response: {
             error: err,
           }
+        },
+        $unset: {
+          reservation: true,
         },
         $inc: {
           errors_count: 1,
@@ -54,30 +84,29 @@ module.exports = function (next) {
     };
     
     var updateTaskStats = function (result) {
-      var schedule = Cron.parseExpression(task.schedule);
-      var nextScheduledAt = schedule.next();
-      
       var query = {
-        _id: task._id,
-        next_scheduled_at: task.next_scheduled_at,
+        "_id": task._id,
+        "reservation.started_at": now,
       };
       
       var update = {
         $set: {
-          next_scheduled_at: nextScheduledAt,
-          last_started_at: null,
           last_response: {
             body: result.body,
             headers: result.headers,
             statusCode: result.statusCode,
           }
         },
+        $unset: {
+          reservation: true,
+        },
         $inc: {
           runs_count: 1,
         },
       };
       
-      return Mongo.db.findAndModify("tasks", query, update);
+      return Mongo.db.findAndModify("tasks", query, update)
+        .return(result);
     };
     
     return reserveTask(task)
@@ -90,7 +119,8 @@ module.exports = function (next) {
   };
   
   Mongo.db.find("tasks", query)
-    .filter(Webtasks.isRunnable)
+    .map(cancelExpiredReservation)
+    .filter(Webtasks.isRunnable) // Remove tasks that still have valid reservations (set to undefined in cancelExpiredReservation)
     .map(runTask)
     .then(function (tasks) {
       return tasks;
