@@ -33,7 +33,7 @@ exports.register = function (server, options, next) {
             return callback(err);
           }
           
-          server.log(['auth0', 'info'], user);
+          server.log(['auth0', 'info'], user.nickname);
           
           callback(null, true, user);
         });

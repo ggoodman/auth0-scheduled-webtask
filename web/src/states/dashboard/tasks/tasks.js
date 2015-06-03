@@ -10,6 +10,7 @@ var module = Angular.module(module.exports, [
   require("directives/jsonModel"),
   
   require("services/api"),
+  require("services/tasks"),
   
   require("widgets/aceEditor"),
 ]);
@@ -31,8 +32,8 @@ module.config(["$stateProvider", function ($stateProvider) {
     return api.get("/tasks/" + $stateParams.id);
   }];
   
-  var resolveTasks = ["api", function (api) {
-    return api.get("/tasks");
+  var resolveTasks = ["tasks", function (tasks) {
+    return tasks.$list();
   }];
   
   $stateProvider.state("dashboard.tasks", {
@@ -71,12 +72,14 @@ module.config(["$stateProvider", function ($stateProvider) {
   
 }]);
 
-module.controller("TasksListController", ["$state", "$stateParams", "api", "tasks", function ($state, $stateParams, api, tasks) {
+module.controller("TasksListController", ["$interval", "$state", "$stateParams", "api", "tasks", function ($interval, $state, $stateParams, api, tasks) {
   var vm = this;
   
   vm.err = $stateParams.err;
   vm.msg = $stateParams.msg;
   vm.tasks = tasks;
+  
+  // $interval(tasks.$list, 1000 * 10);
   
 }]);
 
@@ -104,7 +107,7 @@ module.controller("TasksEditController", ["$state", "$stateParams", "api", "task
 }]);
 
 
-module.controller("TasksShowController", ["$state", "$stateParams", "api", "task", function ($state, $stateParams, api, task) {
+module.controller("TasksShowController", ["$interval", "$state", "$stateParams", "api", "task", "tasks", function ($interval, $state, $stateParams, api, task, tasks) {
   var vm = this;
   
   vm.err = $stateParams.err;
@@ -120,4 +123,8 @@ module.controller("TasksShowController", ["$state", "$stateParams", "api", "task
         vm.err = err.message || err;
       });
   };
+
+  
+    
+  // $interval(tasks.$fetch.bind(tasks, task._id), 1000 * 10);
 }]);
